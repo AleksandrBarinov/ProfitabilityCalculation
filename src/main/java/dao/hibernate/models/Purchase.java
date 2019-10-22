@@ -1,4 +1,4 @@
-package models;
+package dao.hibernate.models;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,16 +13,16 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @OneToOne
-    private Product product;
+    private ProductEntity product;
     private int qty;
     @CreationTimestamp
     private Date date;
 
-    public Product getProduct() {
+    public ProductEntity getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ProductEntity product) {
         this.product = product;
     }
 

@@ -13,7 +13,7 @@
         <property name="hbm2ddl.auto">create</property>
         <property name="current_session_context_class">thread</property>
 
-        <mapping class="models.Product"/>
+        <mapping class="dao.hibernate.models.ProductEntity"/>
         <mapping class="models.Purchase"/>
 
     </session-factory>

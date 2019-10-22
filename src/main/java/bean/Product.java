@@ -1,20 +1,21 @@
-package models;
+package bean;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "products")
 public class Product {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
     private String name;
     private String description;
     private int price;
 
-    public int getId() {
-        return id;
+    public Product () {}
+
+    public Product (
+            String name,
+            String description,
+            int price
+    ) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
     }
 
     public String getName() {
