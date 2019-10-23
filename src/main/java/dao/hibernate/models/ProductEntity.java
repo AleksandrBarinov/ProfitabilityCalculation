@@ -11,7 +11,6 @@ public class ProductEntity {
     private int id;
     private String name;
     private String description;
-    private int balance;
 
     public int getId() {
         return id;

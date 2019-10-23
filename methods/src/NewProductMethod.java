@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 @WebServlet("/newproduct")
-public class NewProduct extends HttpServlet {
+public class NewProductMethod extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String stringReqBody = req.getReader().lines().collect(Collectors.joining());
@@ -24,7 +24,7 @@ public class NewProduct extends HttpServlet {
         );
 
         NewProductService newProductService = NewProductServiceImpl.getInstance();
-        newProductService.addNewPruduct(
+        newProductService.addNewProduct(
                 new Product(
                         jsonObject.get("name").toString(),
                         jsonObject.get("description").toString()

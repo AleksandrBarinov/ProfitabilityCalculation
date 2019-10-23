@@ -1,19 +1,17 @@
 package bean;
 
-import java.util.Date;
-
 public class Demand {
 
     private String name;
     private int quantity;
     private double price;
-    private Date date;
+    private String date;
 
     public Demand (
             String name,
             int quantity,
             double price,
-            Date date
+            String date
     ) {
         this.name = name;
         this.quantity = quantity;
@@ -45,11 +43,11 @@ public class Demand {
         this.price = price;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

@@ -1,9 +1,12 @@
 package service;
 
+import bean.Demand;
 import bean.Product;
 
+import java.text.ParseException;
+
 public interface DemandService {
-    void searchProduct(Product product);
-    void checkBalance(Product product);
-    void demandProduct(Product product);
+    Product searchProduct(String name);
+    int checkBalance(String name);
+    void demandProduct(Demand demand) throws ParseException;
 }

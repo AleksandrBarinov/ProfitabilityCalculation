@@ -1,6 +1,7 @@
 package dao;
 
 import bean.Product;
+import dao.hibernate.models.Demand;
 import dao.hibernate.models.ProductEntity;
 import dao.hibernate.util.HibernateUtil;
 import org.hibernate.Session;
@@ -35,11 +36,16 @@ public class ProductDAOimpl implements ProductDAO {
 
     }
 
-    public void sellProduct(Product product, int qty, double price, Date date) {
+    public int checkBalance(String name) {
+
+        return 0;
+    }
+
+    public void demandProduct(Product product, int qty, double price, Date date) {
 
     }
 
-    public String generateReport(Product product, Date date) {
+    public String generateReport(Product product, String date) {
         return null;
     }
 }

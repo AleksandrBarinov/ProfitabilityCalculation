@@ -8,21 +8,26 @@ import service.NewProductService;
 public class NewProductServiceImpl implements NewProductService {
 
     private static final NewProductServiceImpl instance = new NewProductServiceImpl();
-
     public static NewProductServiceImpl getInstance() {
         return instance;
     }
-
     private ProductDAO productDAO = ProductDAOimpl.getInstance();
 
-    public void searchProduct(Product product) {
-
+    public Product searchProduct(String name) {
+        Product product = productDAO.searchProductByName(name);
+        if (product != null) {
+            return product;
+        } else return null;
     }
 
-    public void addNewPruduct(Product product) {
-        //
-        if(1==1){//all is ok
+    public boolean addNewProduct(Product product) {
+        if(
+                product.getName() != null ||
+                product.getDescription() != null ||
+                searchProduct(product.getName()) == null
+        ){
             productDAO.addNewProduct(product);
-        }
+            return true;
+        } else return false;
     }
 }
