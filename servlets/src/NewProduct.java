@@ -19,5 +19,7 @@ public class NewProduct extends HttpServlet {
                 new Product("name from request", "desc from request", 500)
                 //from request
         );
+        System.out.println(req.getRequestURI());
+
     }
 }

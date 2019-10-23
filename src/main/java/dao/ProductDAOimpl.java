@@ -20,8 +20,8 @@ public class ProductDAOimpl implements ProductDAO {
         session.beginTransaction();
 
         ProductEntity productEntity = new ProductEntity();
-        productEntity.setDescription("desc");
-        productEntity.setName("name");
+        productEntity.setDescription("description");
+        productEntity.setName("new product name");
         productEntity.setPrice(500);
 
         session.save(productEntity);
