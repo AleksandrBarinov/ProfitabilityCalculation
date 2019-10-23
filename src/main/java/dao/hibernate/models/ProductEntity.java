@@ -11,7 +11,7 @@ public class ProductEntity {
     private int id;
     private String name;
     private String description;
-    private int price;
+    private int balance;
 
     public int getId() {
         return id;
@@ -31,13 +31,5 @@ public class ProductEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }

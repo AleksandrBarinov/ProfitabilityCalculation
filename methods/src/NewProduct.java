@@ -16,19 +16,19 @@ import java.util.stream.Collectors;
 public class NewProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String stringRespBody = req.getReader().lines().collect(Collectors.joining());
+        String stringReqBody = req.getReader().lines().collect(Collectors.joining());
 
         GsonUtil gsonUtil = GsonUtil.getInstance();
         JsonObject jsonObject = gsonUtil.getJsonObject(
-                stringRespBody
+                stringReqBody
         );
 
         NewProductService newProductService = NewProductServiceImpl.getInstance();
         newProductService.addNewPruduct(
                 new Product(
                         jsonObject.get("name").toString(),
-                        jsonObject.get("description").toString(),
-                        jsonObject.get("price").getAsInt())
+                        jsonObject.get("description").toString()
+                )
         );
     }
 }

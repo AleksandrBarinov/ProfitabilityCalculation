@@ -15,6 +15,10 @@ public class NewProductServiceImpl implements NewProductService {
 
     private ProductDAO productDAO = ProductDAOimpl.getInstance();
 
+    public void searchProduct(Product product) {
+
+    }
+
     public void addNewPruduct(Product product) {
         //
         if(1==1){//all is ok

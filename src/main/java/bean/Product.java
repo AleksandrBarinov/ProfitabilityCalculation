@@ -4,18 +4,13 @@ public class Product {
 
     private String name;
     private String description;
-    private int price;
-
-    public Product () {}
 
     public Product (
             String name,
-            String description,
-            int price
+            String description
     ) {
         this.name = name;
         this.description = description;
-        this.price = price;
     }
 
     public String getName() {
@@ -32,13 +27,5 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }

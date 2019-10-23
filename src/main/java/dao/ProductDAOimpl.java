@@ -21,7 +21,6 @@ public class ProductDAOimpl implements ProductDAO {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(product.getName());
         productEntity.setDescription(product.getDescription());
-        productEntity.setPrice(product.getPrice());
 
         session.save(productEntity);
         session.getTransaction().commit();
