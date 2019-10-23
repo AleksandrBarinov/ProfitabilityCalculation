@@ -18,15 +18,14 @@ public class ProductDAOimpl implements ProductDAO {
     public void addNewProduct(Product product) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-
         ProductEntity productEntity = new ProductEntity();
-        productEntity.setDescription("description");
-        productEntity.setName("new product name");
-        productEntity.setPrice(500);
+        productEntity.setName(product.getName());
+        productEntity.setDescription(product.getDescription());
+        productEntity.setPrice(product.getPrice());
 
         session.save(productEntity);
         session.getTransaction().commit();
-        HibernateUtil.closeSession();
+        session.close();
     }
 
     public Product searchProductByName(String name) {
