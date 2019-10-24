@@ -1,8 +1,5 @@
-import bean.Product;
-import com.google.gson.JsonObject;
 import service.NewProductService;
 import service.impl.NewProductServiceImpl;
-import util.GsonUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,19 +13,9 @@ import java.util.stream.Collectors;
 public class NewProductMethod extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String stringReqBody = req.getReader().lines().collect(Collectors.joining());
-
-        GsonUtil gsonUtil = GsonUtil.getInstance();
-        JsonObject jsonObject = gsonUtil.getJsonObject(
-                stringReqBody
-        );
+        String reqBody = req.getReader().lines().collect(Collectors.joining());
 
         NewProductService newProductService = NewProductServiceImpl.getInstance();
-        newProductService.addNewProduct(
-                new Product(
-                        jsonObject.get("name").getAsString(),
-                        jsonObject.get("description").getAsString()
-                )
-        );
+        newProductService.addNewProduct(reqBody);
     }
 }

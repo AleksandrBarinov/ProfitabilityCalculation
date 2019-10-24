@@ -1,4 +1,3 @@
-import bean.Product;
 import service.SalesReportService;
 import service.impl.SalesReportServiceImpl;
 
@@ -16,15 +15,7 @@ public class SalesReportMethod extends HttpServlet {
         String name = req.getParameter("name");
         String date = req.getParameter("date");
 
-        System.out.println(name);
-        System.out.println(date);
-
         SalesReportService salesReportService = SalesReportServiceImpl.getInstance();
-        salesReportService.generateReport(
-                new Product(name,null),
-                date
-        );
-
-        resp.getWriter().write("salesreport will be there");
+        resp.getWriter().write(salesReportService.generateReport(name,date));
     }
 }

@@ -8,5 +8,5 @@ import java.text.ParseException;
 public interface DemandService {
     Product searchProduct(String name);
     int checkBalance(String name);
-    void demandProduct(Demand demand) throws ParseException;
+    void demandProduct(String reqBody);
 }

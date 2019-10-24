@@ -1,6 +1,5 @@
 package service.impl;
 
-import bean.Product;
 import dao.ProductDAO;
 import dao.ProductDAOimpl;
 import service.SalesReportService;
@@ -15,7 +14,7 @@ public class SalesReportServiceImpl implements SalesReportService {
 
     private ProductDAO productDAO = ProductDAOimpl.getInstance();
 
-    public String generateReport(Product product, String date) {
-        return productDAO.generateReport(product,date);
+    public String generateReport(String name, String date) {
+        return productDAO.generateReport(name,date);
     }
 }

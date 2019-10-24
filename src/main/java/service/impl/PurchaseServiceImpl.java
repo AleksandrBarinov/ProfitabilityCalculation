@@ -2,9 +2,11 @@ package service.impl;
 
 import bean.Product;
 import bean.Purchase;
+import com.google.gson.JsonObject;
 import dao.ProductDAO;
 import dao.ProductDAOimpl;
 import service.PurchaseService;
+import util.GsonUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,11 +27,28 @@ public class PurchaseServiceImpl implements PurchaseService {
         } else return null;
     }
 
-    public void purchaseProduct(Purchase purchase) throws ParseException {
-        Product product = searchProduct(purchase.getName());
-        Date date = new SimpleDateFormat("dd.MM.yyyy").parse(purchase.getDate());
+    public void purchaseProduct(String reqBody) {
+        GsonUtil gsonUtil = GsonUtil.getInstance();
+        JsonObject jsonObject = gsonUtil.getJsonObject(
+                reqBody
+        );
+        Purchase purchase = new Purchase(
+                jsonObject.get("name").getAsString(),
+                jsonObject.get("quantity").getAsInt(),
+                jsonObject.get("price").getAsDouble(),
+                jsonObject.get("date").getAsString()
+        );
 
-        if (product != null) {
+        Product product = searchProduct(purchase.getName());
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd.MM.yyyy").parse(purchase.getDate());
+        } catch (ParseException e){}
+
+        if (
+                product != null ||
+                date != null
+        ) {
             productDAO.purchaseProduct(
                     product,
                     purchase.getQuantity(),

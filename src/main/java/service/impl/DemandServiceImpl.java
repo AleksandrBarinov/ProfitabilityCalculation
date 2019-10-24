@@ -2,9 +2,11 @@ package service.impl;
 
 import bean.Demand;
 import bean.Product;
+import com.google.gson.JsonObject;
 import dao.ProductDAO;
 import dao.ProductDAOimpl;
 import service.DemandService;
+import util.GsonUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,11 +31,30 @@ public class DemandServiceImpl implements DemandService {
         return productDAO.checkBalance(name);
     }
 
-    public void demandProduct(Demand demand) throws ParseException {
-        Product product = searchProduct(demand.getName());
-        Date date = new SimpleDateFormat("dd.MM.yyyy").parse(demand.getDate());
+    public void demandProduct(String reqBody) {
+        GsonUtil gsonUtil = GsonUtil.getInstance();
+        JsonObject jsonObject = gsonUtil.getJsonObject(
+                reqBody
+        );
 
-        if (product != null || checkBalance(demand.getName()) >= demand.getQuantity()) {
+        Demand demand = new Demand(
+                jsonObject.get("name").getAsString(),
+                jsonObject.get("quantity").getAsInt(),
+                jsonObject.get("price").getAsDouble(),
+                jsonObject.get("date").getAsString()
+        );
+
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd.MM.yyyy").parse(demand.getDate());
+        } catch (ParseException e){}
+
+        Product product = searchProduct(demand.getName());
+
+        if (
+                product != null || date != null ||
+                checkBalance(demand.getName()) >= demand.getQuantity()
+        ) {
             productDAO.demandProduct(
                     product,
                     demand.getQuantity(),

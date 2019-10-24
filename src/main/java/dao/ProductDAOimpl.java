@@ -84,7 +84,7 @@ public class ProductDAOimpl implements ProductDAO {
     public void demandProduct(Product product, int qty, double price, Date date) {
     }
 
-    public String generateReport(Product product, String date) {
+    public String generateReport(String name, String date) {
         return null;
     }
 }

@@ -1,9 +1,11 @@
 package service.impl;
 
 import bean.Product;
+import com.google.gson.JsonObject;
 import dao.ProductDAO;
 import dao.ProductDAOimpl;
 import service.NewProductService;
+import util.GsonUtil;
 
 public class NewProductServiceImpl implements NewProductService {
 
@@ -20,11 +22,21 @@ public class NewProductServiceImpl implements NewProductService {
         } else return null;
     }
 
-    public boolean addNewProduct(Product product) {
+    public boolean addNewProduct(String reqBody) {
+        GsonUtil gsonUtil = GsonUtil.getInstance();
+        JsonObject jsonObject = gsonUtil.getJsonObject(
+                reqBody
+        );
+
+        Product product = new Product(
+                jsonObject.get("name").getAsString(),
+                jsonObject.get("description").getAsString()
+        );
+
         if(
                 product.getName() != null ||
                 product.getDescription() != null ||
-                searchProduct(product.getName()) == null
+                productDAO.searchProductByName(product.getName()) == null
         ){
             productDAO.addNewProduct(product);
             return true;
