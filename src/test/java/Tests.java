@@ -35,4 +35,10 @@ public class Tests {
 
         Assert.assertEquals((now - was), 1);
     }
+
+    @Test
+    public void generateReport(){
+        ProductDAO productDAOimpl = new ProductDAOimpl();
+        System.out.println(productDAOimpl.generateReport("product","22.02.2019"));
+    }
 }

@@ -11,7 +11,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class ProductDAOimpl implements ProductDAO {
 
@@ -148,6 +151,36 @@ public class ProductDAOimpl implements ProductDAO {
     }
 
     public String generateReport(String name, String date) {
-        return null;
+        Date desiredDate = null;
+        try {
+            desiredDate = new SimpleDateFormat("dd.MM.yyyy").parse(date);
+        } catch (ParseException ignored){}
+
+        double purchaseSum = 0;
+        double demandSum = 0;
+        double profitability;
+
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        List<PurchaseEntity> purchases = session.createQuery("from PurchaseEntity").getResultList();
+        List<DemandEntity> demands = session.createQuery("from DemandEntity").getResultList();
+
+        for (PurchaseEntity purchase: purchases){
+            if (purchase.getDate().compareTo(desiredDate) == 0){
+                purchaseSum = purchaseSum + purchase.getPrice();
+                System.out.println(purchaseSum);
+            }
+        }
+        for (DemandEntity demand: demands){
+            if (demand.getDate().compareTo(desiredDate) == 0){
+                demandSum = demandSum + demand.getPrice();
+            }
+        }
+        profitability = demandSum - purchaseSum;
+
+        session.getTransaction().commit();
+        session.close();
+        return "profitability of "+name+" is "+profitability+"";
     }
 }
