@@ -15,9 +15,11 @@ import java.util.Date;
 public class DemandServiceImpl implements DemandService {
 
     private static final DemandServiceImpl instance = new DemandServiceImpl();
+
     public static DemandServiceImpl getInstance() {
         return instance;
     }
+
     private ProductDAO productDAO = ProductDAOimpl.getInstance();
 
     public Product searchProduct(String name) {
@@ -31,7 +33,7 @@ public class DemandServiceImpl implements DemandService {
         return productDAO.checkBalance(name);
     }
 
-    public void demandProduct(String reqBody) {
+    public boolean demandProduct(String reqBody) {
         GsonUtil gsonUtil = GsonUtil.getInstance();
         JsonObject jsonObject = gsonUtil.getJsonObject(
                 reqBody
@@ -47,12 +49,12 @@ public class DemandServiceImpl implements DemandService {
         Date date = null;
         try {
             date = new SimpleDateFormat("dd.MM.yyyy").parse(demand.getDate());
-        } catch (ParseException e){}
+        } catch (ParseException ignored){}
 
         Product product = searchProduct(demand.getName());
 
         if (
-                product != null || date != null ||
+                product != null && date != null &&
                 checkBalance(demand.getName()) >= demand.getQuantity()
         ) {
             productDAO.demandProduct(
@@ -61,6 +63,11 @@ public class DemandServiceImpl implements DemandService {
                     demand.getPrice(),
                     date
             );
-        }
+            return true;
+        } else return false;
+    }
+
+    public void updateBalance(String name) {
+
     }
 }

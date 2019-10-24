@@ -16,6 +16,10 @@ public class PurchaseMethod extends HttpServlet {
         String reqBody = req.getReader().lines().collect(Collectors.joining());
 
         PurchaseService purchaseService = PurchaseServiceImpl.getInstance();
-        purchaseService.purchaseProduct(reqBody);
+        boolean result = purchaseService.purchaseProduct(reqBody);
+
+        if (!result) {
+            resp.sendError(400);
+        }
     }
 }

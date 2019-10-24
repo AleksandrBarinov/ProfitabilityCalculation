@@ -16,6 +16,10 @@ public class NewProductMethod extends HttpServlet {
         String reqBody = req.getReader().lines().collect(Collectors.joining());
 
         NewProductService newProductService = NewProductServiceImpl.getInstance();
-        newProductService.addNewProduct(reqBody);
+        boolean result = newProductService.addNewProduct(reqBody);
+
+        if (!result) {
+            resp.sendError(400);
+        }
     }
 }

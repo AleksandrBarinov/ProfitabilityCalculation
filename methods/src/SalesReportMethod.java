@@ -16,6 +16,12 @@ public class SalesReportMethod extends HttpServlet {
         String date = req.getParameter("date");
 
         SalesReportService salesReportService = SalesReportServiceImpl.getInstance();
-        resp.getWriter().write(salesReportService.generateReport(name,date));
+        String result = salesReportService.generateReport(name,date);
+
+        if (result == null) {
+            resp.sendError(400);
+        } else {
+            resp.getWriter().write(result);
+        }
     }
 }

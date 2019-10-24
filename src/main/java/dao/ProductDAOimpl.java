@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import javax.persistence.NoResultException;
 import java.util.Date;
 
 public class ProductDAOimpl implements ProductDAO {
@@ -38,24 +39,30 @@ public class ProductDAOimpl implements ProductDAO {
     }
 
     public Product searchProductByName(String name) {
+
         ProductEntity entity = searchProductEntityByName(name);
 
-        return new Product(
-                entity.getName(),
-                entity.getDescription()
-        );
+        if (entity != null) {
+            return new Product(
+                    entity.getName(),
+                    entity.getDescription()
+            );
+        } else return null;
     }
 
     private ProductEntity searchProductEntityByName(String name) {
         session = sessionFactory.openSession();
         session.beginTransaction();
-
-        Query query = session.createQuery("FROM ProductEntity p where p.name = :name");
-        query.setParameter("name", name);
-        ProductEntity entity = (ProductEntity) query.getSingleResult();
+        ProductEntity entity;
+        try {
+            Query query = session.createQuery("FROM ProductEntity p where p.name = :name");
+            query.setParameter("name", name);
+            entity = (ProductEntity) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
 
         session.close();
-
         return entity;
     }
 

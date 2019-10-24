@@ -15,9 +15,11 @@ import java.util.Date;
 public class PurchaseServiceImpl implements PurchaseService {
 
     private static final PurchaseServiceImpl instance = new PurchaseServiceImpl();
+
     public static PurchaseServiceImpl getInstance() {
         return instance;
     }
+
     private ProductDAO productDAO = ProductDAOimpl.getInstance();
 
     public Product searchProduct(String name) {
@@ -27,7 +29,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         } else return null;
     }
 
-    public void purchaseProduct(String reqBody) {
+    public boolean purchaseProduct(String reqBody) {
         GsonUtil gsonUtil = GsonUtil.getInstance();
         JsonObject jsonObject = gsonUtil.getJsonObject(
                 reqBody
@@ -43,10 +45,10 @@ public class PurchaseServiceImpl implements PurchaseService {
         Date date = null;
         try {
             date = new SimpleDateFormat("dd.MM.yyyy").parse(purchase.getDate());
-        } catch (ParseException e){}
+        } catch (ParseException ignored){}
 
         if (
-                product != null ||
+                product != null &&
                 date != null
         ) {
             productDAO.purchaseProduct(
@@ -55,6 +57,11 @@ public class PurchaseServiceImpl implements PurchaseService {
                     purchase.getPrice(),
                     date
             );
-        }
+            return true;
+        } else return false;
+    }
+
+    public void updateBalance(String name) {
+        
     }
 }

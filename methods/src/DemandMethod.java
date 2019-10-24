@@ -16,6 +16,10 @@ public class DemandMethod extends HttpServlet {
         String reqBody = req.getReader().lines().collect(Collectors.joining());
 
         DemandService demandService = DemandServiceImpl.getInstance();
-        demandService.demandProduct(reqBody);
+        boolean result = demandService.demandProduct(reqBody);
+
+        if (!result) {
+            resp.sendError(400);
+        }
     }
 }
