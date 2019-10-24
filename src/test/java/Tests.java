@@ -1,6 +1,7 @@
 import bean.Product;
 import dao.ProductDAO;
 import dao.ProductDAOimpl;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import service.NewProductService;
 import service.impl.NewProductServiceImpl;
@@ -12,18 +13,26 @@ public class Tests {
         ProductDAO productDAOimpl = new ProductDAOimpl();
         Product product = productDAOimpl.searchProductByName("product");
         System.out.println(product.getName() + " was found");
+
+        Assert.assertEquals(product.getName(),"product");
     }
 
     @Test
     public void productExists(){
         NewProductService newProductService = new NewProductServiceImpl();
-        boolean result = newProductService.productExists("prod32uct");
+        boolean result = newProductService.productExists("product");
         System.out.println("result is " + result);
+
+        Assert.assertTrue(result);
     }
 
     @Test
     public void updateBalance(){
         ProductDAO productDAOimpl = new ProductDAOimpl();
-        productDAOimpl.updateBalance("product",100);
+        int was = productDAOimpl.checkBalance("product");
+        productDAOimpl.updateBalance("product",1);
+        int now = productDAOimpl.checkBalance("product");
+
+        Assert.assertEquals((now - was), 1);
     }
 }

@@ -29,7 +29,7 @@ public class DemandServiceImpl implements DemandService {
         } else return null;
     }
 
-    public int checkBalance(String name) {
+    public Integer checkBalance(String name) {
         return productDAO.checkBalance(name);
     }
 
@@ -46,7 +46,7 @@ public class DemandServiceImpl implements DemandService {
                 jsonObject.get("date").getAsString()
         );
 
-        int balance = checkBalance(demand.getName());
+        Integer balance = checkBalance(demand.getName());
 
         Date date = null;
         try {
@@ -59,8 +59,8 @@ public class DemandServiceImpl implements DemandService {
                 product != null &&
                 demand.getQuantity() > 0 &&
                 demand.getPrice() > 0 &&
-                date != null && balance >=
-                demand.getQuantity()
+                date != null &&
+                balance >= demand.getQuantity()
         ){
             productDAO.demandProduct(
                     product,
