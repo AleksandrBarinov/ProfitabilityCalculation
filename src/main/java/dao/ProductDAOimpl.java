@@ -11,8 +11,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -150,36 +148,37 @@ public class ProductDAOimpl implements ProductDAO {
         session.close();
     }
 
-    public String generateReport(String name, String date) {
-        Date desiredDate = null;
-        try {
-            desiredDate = new SimpleDateFormat("dd.MM.yyyy").parse(date);
-        } catch (ParseException ignored){}
-
-        double purchaseSum = 0;
-        double demandSum = 0;
-        double profitability;
-
+    public List<PurchaseEntity> getPurchases(String name, Date date) {
+        List<PurchaseEntity> purchaseEntities;
         session = sessionFactory.openSession();
         session.beginTransaction();
-
-        List<PurchaseEntity> purchases = session.createQuery("from PurchaseEntity").getResultList();
-        List<DemandEntity> demands = session.createQuery("from DemandEntity").getResultList();
-
-        for (PurchaseEntity purchase: purchases){
-            if (purchase.getDate().compareTo(desiredDate) == 0){
-                purchaseSum = purchaseSum + purchase.getPrice();
-            }
+        try {
+            Query query = session.createQuery("from PurchaseEntity p where p.product.name = :name and p.date = :date");
+            query.setParameter("name", name);
+            query.setParameter("date", date);
+            purchaseEntities = query.getResultList();
+        } catch (NoResultException e) {
+            return null;
         }
-        for (DemandEntity demand: demands){
-            if (demand.getDate().compareTo(desiredDate) == 0){
-                demandSum = demandSum + demand.getPrice();
-            }
-        }
-        profitability = demandSum - purchaseSum;
-
         session.getTransaction().commit();
         session.close();
-        return "profitability of "+name+" is "+profitability+"";
+        return purchaseEntities;
+    }
+
+    public List<DemandEntity> demands(String name, Date date) {
+        List<DemandEntity> demandEntities;
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        try {
+            Query query = session.createQuery("from DemandEntity d where d.product.name = :name and d.date = :date");
+            query.setParameter("name", name);
+            query.setParameter("date", date);
+            demandEntities = query.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+        session.getTransaction().commit();
+        session.close();
+        return demandEntities;
     }
 }
