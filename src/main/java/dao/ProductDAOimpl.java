@@ -169,7 +169,6 @@ public class ProductDAOimpl implements ProductDAO {
         for (PurchaseEntity purchase: purchases){
             if (purchase.getDate().compareTo(desiredDate) == 0){
                 purchaseSum = purchaseSum + purchase.getPrice();
-                System.out.println(purchaseSum);
             }
         }
         for (DemandEntity demand: demands){
