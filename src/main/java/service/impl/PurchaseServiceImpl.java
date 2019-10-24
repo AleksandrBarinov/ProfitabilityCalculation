@@ -49,19 +49,26 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         if (
                 product != null &&
+                purchase.getQuantity() > 0 &&
+                purchase.getPrice() > 0 &&
                 date != null
-        ) {
+        ){
             productDAO.purchaseProduct(
                     product,
                     purchase.getQuantity(),
                     purchase.getPrice(),
                     date
             );
+            updateBalance(
+                    product.getName(),
+                    purchase.getQuantity()
+            );
             return true;
+
         } else return false;
     }
 
-    public void updateBalance(String name) {
-        
+    public void updateBalance(String name, int quantity) {
+        productDAO.updateBalance(name,quantity);
     }
 }

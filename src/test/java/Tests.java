@@ -20,4 +20,10 @@ public class Tests {
         boolean result = newProductService.productExists("prod32uct");
         System.out.println("result is " + result);
     }
+
+    @Test
+    public void updateBalance(){
+        ProductDAO productDAOimpl = new ProductDAOimpl();
+        productDAOimpl.updateBalance("product",100);
+    }
 }

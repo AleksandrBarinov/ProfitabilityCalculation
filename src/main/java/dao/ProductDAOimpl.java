@@ -2,6 +2,7 @@ package dao;
 
 import bean.Product;
 import dao.hibernate.models.DemandEntity;
+import dao.hibernate.models.ProductBalance;
 import dao.hibernate.models.ProductEntity;
 import dao.hibernate.models.PurchaseEntity;
 import dao.hibernate.util.HibernateUtil;
@@ -39,7 +40,6 @@ public class ProductDAOimpl implements ProductDAO {
     }
 
     public Product searchProductByName(String name) {
-
         ProductEntity entity = searchProductEntityByName(name);
 
         if (entity != null) {
@@ -85,7 +85,45 @@ public class ProductDAOimpl implements ProductDAO {
     }
 
     public int checkBalance(String name) {
-        return 0;
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        try {
+            Query query = session.createQuery("FROM ProductBalance p where p.product.name = :name");
+            query.setParameter("name", name);
+            ProductBalance productBalance = (ProductBalance) query.getSingleResult();
+
+            return productBalance.getQuantity();
+        } catch (NoResultException e) {
+            return 0;
+        }
+
+    }
+
+    public void updateBalance(String name, int quantity) {
+        ProductEntity entity = searchProductEntityByName(name);
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        ProductBalance productBalance;
+        try {
+            Query query = session.createQuery("FROM ProductBalance p where p.product.name = :name");
+            query.setParameter("name", name);
+            productBalance = (ProductBalance) query.getSingleResult();
+
+            productBalance.setQuantity(
+                    productBalance.getQuantity() + quantity
+            );
+            session.save(productBalance);
+            session.getTransaction().commit();
+
+        } catch (NoResultException e){
+            productBalance = new ProductBalance();
+            productBalance.setProduct(entity);
+            productBalance.setQuantity(quantity);
+            session.save(productBalance);
+            session.getTransaction().commit();
+        }
+        session.close();
     }
 
     public void demandProduct(Product product, int qty, double price, Date date) {

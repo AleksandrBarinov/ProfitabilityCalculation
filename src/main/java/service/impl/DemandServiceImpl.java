@@ -46,6 +46,8 @@ public class DemandServiceImpl implements DemandService {
                 jsonObject.get("date").getAsString()
         );
 
+        int balance = checkBalance(demand.getName());
+
         Date date = null;
         try {
             date = new SimpleDateFormat("dd.MM.yyyy").parse(demand.getDate());
@@ -54,20 +56,28 @@ public class DemandServiceImpl implements DemandService {
         Product product = searchProduct(demand.getName());
 
         if (
-                product != null && date != null &&
-                checkBalance(demand.getName()) >= demand.getQuantity()
-        ) {
+                product != null &&
+                demand.getQuantity() > 0 &&
+                demand.getPrice() > 0 &&
+                date != null && balance >=
+                demand.getQuantity()
+        ){
             productDAO.demandProduct(
                     product,
                     demand.getQuantity(),
                     demand.getPrice(),
                     date
             );
+            updateBalance(
+                    product.getName(),
+                    balance - demand.getQuantity()
+            );
             return true;
+
         } else return false;
     }
 
-    public void updateBalance(String name) {
-
+    public void updateBalance(String name, int quantity) {
+        productDAO.updateBalance(name, quantity);
     }
 }

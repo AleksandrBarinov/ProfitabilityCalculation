@@ -5,5 +5,5 @@ import bean.Product;
 public interface PurchaseService {
     Product searchProduct(String name);
     boolean purchaseProduct(String reqBody);
-    void updateBalance(String name);
+    void updateBalance(String name, int quantity);
 }
