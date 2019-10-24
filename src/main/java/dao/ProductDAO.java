@@ -7,7 +7,7 @@ import java.util.Date;
 public interface ProductDAO {
     void addNewProduct(Product product);
     Product searchProductByName(String name);
-    int checkBalance(String name);
+    Integer checkBalance(String name);
     void updateBalance(String name, int quantity);
     void purchaseProduct(Product product, int qty, double price, Date date);
     void demandProduct(Product product, int qty, double price, Date date);

@@ -84,20 +84,23 @@ public class ProductDAOimpl implements ProductDAO {
         session.close();
     }
 
-    public int checkBalance(String name) {
+    public Integer checkBalance(String name) {
+        Integer balance;
+
         session = sessionFactory.openSession();
         session.beginTransaction();
-
         try {
             Query query = session.createQuery("FROM ProductBalance p where p.product.name = :name");
             query.setParameter("name", name);
             ProductBalance productBalance = (ProductBalance) query.getSingleResult();
-
-            return productBalance.getQuantity();
+            balance = productBalance.getQuantity();
         } catch (NoResultException e) {
-            return 0;
+            return null;
         }
+        session.getTransaction().commit();
 
+        session.close();
+        return balance;
     }
 
     public void updateBalance(String name, int quantity) {
@@ -127,6 +130,21 @@ public class ProductDAOimpl implements ProductDAO {
     }
 
     public void demandProduct(Product product, int qty, double price, Date date) {
+        ProductEntity productEntity = searchProductEntityByName(product.getName());
+
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        DemandEntity entity = new DemandEntity();
+        entity.setProduct(productEntity);
+        entity.setQuantity(qty);
+        entity.setPrice(price);
+        entity.setDate(date);
+
+        session.save(entity);
+        session.getTransaction().commit();
+
+        session.close();
     }
 
     public String generateReport(String name, String date) {

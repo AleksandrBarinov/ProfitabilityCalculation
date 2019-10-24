@@ -70,7 +70,7 @@ public class DemandServiceImpl implements DemandService {
             );
             updateBalance(
                     product.getName(),
-                    balance - demand.getQuantity()
+                    -(demand.getQuantity())
             );
             return true;
 
