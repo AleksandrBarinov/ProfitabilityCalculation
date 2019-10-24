@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "purchases")
-public class Purchase {
+@Table(name = "demands")
+public class DemandEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

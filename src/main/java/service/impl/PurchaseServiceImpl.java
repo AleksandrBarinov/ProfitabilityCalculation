@@ -30,7 +30,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         Date date = new SimpleDateFormat("dd.MM.yyyy").parse(purchase.getDate());
 
         if (product != null) {
-            productDAO.demandProduct(
+            productDAO.purchaseProduct(
                     product,
                     purchase.getQuantity(),
                     purchase.getPrice(),

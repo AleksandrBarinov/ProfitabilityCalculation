@@ -7,15 +7,15 @@
         <property name="connection.url">jdbc:postgresql://localhost:5432/postgres</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">1111</property>
-        <property name="connection.pool_size">2</property>
+        <property name="connection.pool_size">100</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">create</property>
         <property name="current_session_context_class">thread</property>
 
         <mapping class="dao.hibernate.models.ProductEntity"/>
-        <mapping class="dao.hibernate.models.Purchase"/>
-        <mapping class="dao.hibernate.models.Demand"/>
+        <mapping class="dao.hibernate.models.PurchaseEntity"/>
+        <mapping class="dao.hibernate.models.DemandEntity"/>
         <mapping class="dao.hibernate.models.ProductBalance"/>
 
     </session-factory>

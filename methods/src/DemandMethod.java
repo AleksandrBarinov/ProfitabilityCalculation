@@ -28,10 +28,10 @@ public class DemandMethod extends HttpServlet {
         try {
             demandService.demandProduct(
                     new Demand(
-                        jsonObject.get("name").toString(),
+                        jsonObject.get("name").getAsString(),
                         jsonObject.get("quantity").getAsInt(),
                         jsonObject.get("price").getAsDouble(),
-                        jsonObject.get("date").toString()
+                        jsonObject.get("date").getAsString()
                     )
             );
         } catch (ParseException e) {

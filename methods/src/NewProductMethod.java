@@ -26,8 +26,8 @@ public class NewProductMethod extends HttpServlet {
         NewProductService newProductService = NewProductServiceImpl.getInstance();
         newProductService.addNewProduct(
                 new Product(
-                        jsonObject.get("name").toString(),
-                        jsonObject.get("description").toString()
+                        jsonObject.get("name").getAsString(),
+                        jsonObject.get("description").getAsString()
                 )
         );
     }

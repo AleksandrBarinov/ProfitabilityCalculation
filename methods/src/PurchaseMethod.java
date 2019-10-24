@@ -28,10 +28,10 @@ public class PurchaseMethod extends HttpServlet {
         try {
             purchaseService.purchaseProduct(
                     new Purchase(
-                        jsonObject.get("name").toString(),
+                        jsonObject.get("name").getAsString(),
                         jsonObject.get("quantity").getAsInt(),
                         jsonObject.get("price").getAsDouble(),
-                        jsonObject.get("date").toString()
+                        jsonObject.get("date").getAsString()
                     )
             );
         } catch (ParseException e) {
